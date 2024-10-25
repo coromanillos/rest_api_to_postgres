@@ -39,9 +39,13 @@ try:
 	data = response.json()
 
 	# Pretty print the data
-	print(json.dunps(data, Indent=4))
+	print(json.dumps(data, indent=4))
 
 except requests.exceptions.Timeout:
 	print(f"Request timed out after {timeout_value} seconds.")
-except requests.exceptions.RequestException as e:
-	print(f"An error occured: {e}") 
+except requests.exceptions.ConnectionError:
+	print(f"A connection error occured. Check network connection.")
+except request.exceptions.HTTPError as http_err:
+	print(f"HTTP error occured: {http_err}")
+except requests.exceptions.RequestException as err:
+	print(f"An unexpected error occured: {err}") 
