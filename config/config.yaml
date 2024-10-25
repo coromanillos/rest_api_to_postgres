@@ -1,0 +1,6 @@
+# Configuration settings utilized via python.
+
+api:
+  endpoint: https://www.alphavantage.co/query
+  key: your_api_key
+  timeout: 30 # in seconds

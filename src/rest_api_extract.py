@@ -41,7 +41,7 @@ try:
 	# Pretty print the data
 	print(json.dunps(data, Indent=4))
 
-except requests.exception.Timeout:
+except requests.exceptions.Timeout:
 	print(f"Request timed out after {timeout_value} seconds.")
 except requests.exceptions.RequestException as e:
 	print(f"An error occured: {e}") 
