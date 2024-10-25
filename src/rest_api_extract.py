@@ -13,7 +13,7 @@ import os
 import yaml
 from dotenv import load_dotenv
 
-# Load configuartion from config.yaml
+# Load configuration from config.yaml
 with open('config.yaml', 'r') as file:
 	config = yaml.safe_load(file)
 
@@ -44,8 +44,8 @@ try:
 except requests.exceptions.Timeout:
 	print(f"Request timed out after {timeout_value} seconds.")
 except requests.exceptions.ConnectionError:
-	print(f"A connection error occured. Check network connection.")
-except request.exceptions.HTTPError as http_err:
-	print(f"HTTP error occured: {http_err}")
+	print(f"A connection error occurred. Check network connection.")
+except requests.exceptions.HTTPError as http_err:
+	print(f"HTTP error occurred: {http_err}")
 except requests.exceptions.RequestException as err:
-	print(f"An unexpected error occured: {err}") 
+	print(f"An unexpected error occurred: {err}") 
