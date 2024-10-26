@@ -12,6 +12,8 @@ import json
 import os
 import yaml
 from dotenv import load_dotenv
+from datetime import datetime
+import logging
 
 # Load configuration from config.yaml
 with open('../config/config.yaml', 'r') as file:
