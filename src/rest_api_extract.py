@@ -14,7 +14,7 @@ import yaml
 from dotenv import load_dotenv
 
 # Load configuration from config.yaml
-with open('config.yaml', 'r') as file:
+with open('../config/config.yaml', 'r') as file:
 	config = yaml.safe_load(file)
 
 # Load API key from .env to a variable
