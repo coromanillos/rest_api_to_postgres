@@ -40,3 +40,11 @@ Considerations: Depending on the data, it may take up large amounts of disk spac
 - Regardless, schema will have to change to fit the constraints of the new API endpoint... Regardless, complete schema design for loading **BALANCE_SHEET** data to postgreSQL database...
 
 - Finally, look into cloud options, Amazon S3 may be a popular long term solution for data, rather than leaving in in a postgres database.
+
+# ETL Project update 10/27
+
+## Synopsis 
+After further resarch, I came to the conclusion that Time Series data will be better for a more realistc ETL project. I have come to understand that automation is critical for the process, and to incorporate **cron jobs** and common industry standard tech such as **Airflow**, it will warrant data that updates within intervals.
+
+- As a result, edit rest_api_extract to use **Time Series Intraday data**
+- Edit Trello project, consider using Git Projects instead?
