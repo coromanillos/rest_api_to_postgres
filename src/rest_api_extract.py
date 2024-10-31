@@ -1,9 +1,9 @@
  ##############################################
- # Title: Alpha Vantage Balance Sheet Extract
+ # Title: Alpha Vantage Time Series Intraday Extract
  # Author: Christopher Romanillos
  # Description: Extract data from Alpha Vantage
  # 	rest API
- # Date: 10/24/24
+ # Date: 10/27/24
  # Version: 1.0
  ##############################################
 
@@ -14,6 +14,13 @@ import yaml
 from dotenv import load_dotenv
 from datetime import datetime
 import logging
+
+# Set up logging
+logging.basicConfig(
+    filename='../logs/etl_errors.log',  # Log file path
+    level=logging.INFO,                 # Log level (can be adjusted)
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 # Load configuration from config.yaml
 with open('../config/config.yaml', 'r') as file:
@@ -28,7 +35,7 @@ api_endpoint = config['api']['endpoint']
 timeout_value = config['api']['timeout']
 
 # Construct the full URL 
-url = f"{api_endpoint}?function=BALANCE_SHEET&symbol=IBM&apikey={api_key}"
+url = f"{api_endpoint}?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&adjusted=false&apikey={api_key}"
 
 try:
 	# Send the GET request with a timeout
@@ -40,14 +47,15 @@ try:
 	# Convert JSON from API into Python Dictionary
 	data = response.json()
 
-	# Pretty print the data
-	print(json.dumps(data, indent=4))
+	# Log data processing for tracking
+    logging.info("Data extraction and conversion successful.")
+    # Optionally, save or process the data here
 
 except requests.exceptions.Timeout:
-	print(f"Request timed out after {timeout_value} seconds.")
+    logging.error(f"Request timed out after {timeout_value} seconds.")
 except requests.exceptions.ConnectionError:
-	print(f"A connection error occurred. Check network connection.")
+    logging.error("A connection error occurred. Check network connection.")
 except requests.exceptions.HTTPError as http_err:
-	print(f"HTTP error occurred: {http_err}")
+    logging.error(f"HTTP error occurred: {http_err}")
 except requests.exceptions.RequestException as err:
-	print(f"An unexpected error occurred: {err}") 
+    logging.error(f"An unexpected error occurred: {err}")
