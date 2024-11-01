@@ -62,7 +62,7 @@ try:
         json.dump(data, file)
 
     # Log data processing for tracking
-    logging.info(f"Data extraction, conversion and saving successful. Saved as {filename}")
+    logging.info(f"All tests passed. Saved as {filename}")
 
 except requests.exceptions.Timeout:
     logging.error(f"Request timed out after {timeout_value} seconds.")
