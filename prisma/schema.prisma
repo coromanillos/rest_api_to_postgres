@@ -15,10 +15,11 @@ datasource db {
 
 model IntradayData {
 	id 			Int 		@id @default(autoincrement())
+	timestamp 	DateTime 	@map("timestamp")
 	open		Float		@map("open")
 	high		Float		@map("high")
 	low			Float		@map("low")
 	close		Float		@map("close")
 	volume		Int     	@map("volume")
-	creaedAt 	DateTime	@default(now() @map("created_at"))
+	createdAt 	DateTime	@default(now() @map("created_at"))
 }

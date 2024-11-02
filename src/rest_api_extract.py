@@ -2,7 +2,7 @@
 # Title: Alpha Vantage Time Series Intraday Extract
 # Author: Christopher Romanillos
 # Description: Extract data from Alpha Vantage
-#   rest API
+#   rest API, timestamp, save the file
 # Date: 10/27/24
 # Version: 1.0
 ##############################################
