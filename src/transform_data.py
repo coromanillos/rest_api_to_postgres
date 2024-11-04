@@ -3,8 +3,8 @@
 # Author: Christopher Romanillos
 # Description: Load in raw data, process it for
 # 	data validation, timestamp, save the file
-# Date:
-# Version:
+# Date: 11/02/24
+# Version: 1.0
 ##############################################
 
 import os
@@ -16,7 +16,7 @@ from datetime import datetime
 # Set up logging for processing steps
 logging.basicConfig(
 	filename='../logs/data_processing.log',
-	level=logging.INFO
+	level=logging.INFO,
 	format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
@@ -50,11 +50,11 @@ for timestamp, values in time_series_data.items():
     })
 
 # Save processed data as a JSON file in a "prepared_data" folder
-prepared_data_dir = "../data/prepared_data"
-os.makedirs(prepared_data_dir, exist_ok=True)
+processed_data_dir = "../data/processed_data"
+os.makedirs(processed_data_dir, exist_ok=True)
 
-prepared_filename = f"{prepared_data_dir}/prepared_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-with open(prepared_filename, 'w') as file:
+processed_filename = f"{processed_data_dir}/processed_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+with open(processed_filename, 'w') as file:
     json.dump(processed_data, file, default=str)  # Ensure datetime is serialized as a string
 
-logging.info(f"Processed data saved as {prepared_filename}")
+logging.info(f"Processed data saved as {processed_filename}")
