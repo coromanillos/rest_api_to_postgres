@@ -21,5 +21,5 @@ model IntradayData {
 	low			Float		@map("low")
 	close		Float		@map("close")
 	volume		Int     	@map("volume")
-	createdAt 	DateTime	@default(now() @map("created_at"))
+	createdAt 	DateTime	@default(now()) @map("created_at")
 }
