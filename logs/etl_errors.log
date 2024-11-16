@@ -1,2 +1,4 @@
 2024-10-31 22:04:06,528 - ERROR - Error saving file: [Errno 2] No such file or directory: '../raw_data/data_20241031_220404.json'
 2024-10-31 22:05:06,175 - INFO - Data extraction, conversion and saving successful. Saved as ../data/raw_data/data_20241031_220502.json
+2024-11-15 07:36:33,238 - INFO - All tests passed. Saved as ../data/raw_data/data_20241115_073632.json
+2024-11-15 07:36:34,484 - INFO - All tests passed. Saved as ../data/raw_data/data_20241115_073634.json
