@@ -1,5 +1,5 @@
 # src/db/schema.py
-from sqlalchemy import Column, Integer, Float, DateTime
+from sqlalchemy import Column, Integer, BigInteger, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
@@ -8,13 +8,13 @@ Base = declarative_base()
 class IntradayData(Base):
     __tablename__ = 'intraday_data'  # Table name in PostgreSQL
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    timestamp = Column(DateTime, nullable=False)  # Equivalent to DateTime in Prisma
-    open = Column(Float, nullable=False)  # Equivalent to Float in Prisma
+    id = Column(BigInteger, primary_key=True, autoincrement=True) #Scalable ID
+    timestamp = Column(DateTime, nullable=False, unique=True, index=True)  # Unique time-series data
+    open = Column(Float, nullable=False)  # OHLC and volume data
     high = Column(Float, nullable=False)
     low = Column(Float, nullable=False)
     close = Column(Float, nullable=False)
-    volume = Column(Integer, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)  # Maps to createdAt with a default of now
+    volume = Column(BigInteger, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)  # When record was first inserted
 
 # After defining this schema, run `Base.metadata.create_all(engine)` to create the table.
