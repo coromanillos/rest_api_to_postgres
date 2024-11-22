@@ -17,7 +17,7 @@ logging.basicConfig(
 )
 
 # Set your PostgreSQL database URL
-DATABASE_URL = os.getenv("DATABASE_URL","postgresql://username:password@localhost:5432/yourdatabase")
+POSTGRES_DATABASE_URL = os.getenv("DATABASE_URL","postgresql://username:password@localhost:5432/yourdatabase")
 
 # Create the engine to connect to PostgreSQL
 try:
