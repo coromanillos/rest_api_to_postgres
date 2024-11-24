@@ -7,9 +7,9 @@
 # Version: 1.0
 ##############################################
 
-from utils.utils import setup_logging, save_to_file, validate_data
-from utils.config import load_config, load_env_variables
-from utils.api_requests import fetch_api_data
+from utils import setup_logging, save_to_file, validate_data
+from config import load_config, load_env_variables
+from api_requests import fetch_api_data
 from datetime import datetime
 import logging
 
