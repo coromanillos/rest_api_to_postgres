@@ -7,18 +7,15 @@
 # Version: 1.0
 ##############################################
 
+from utils.utils import setup_logging, save_to_file, validate_data
+from utils.config import load_config, load_env_variables
+from utils.api_requests import fetch_api_data
 import os
 import glob
-import json
-import logging
 from datetime import datetime
 
 # Set up logging for processing steps
-logging.basicConfig(
-    filename='../logs/data_processing.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+setup_logging('../logs/data_processing.log')
 
 # Directory where raw data is stored
 raw_data_dir = "../data/raw_data"
