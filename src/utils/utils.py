@@ -22,9 +22,43 @@ def save_to_file(data, file_path):
         json.dump(data, file)
     logging.info(f"Data saved to {file_path}")
 
-def validate_data(data, expected_field):
-    """Validate if the expected field exists in the data."""
-    if expected_field not in data:
-        logging.error(f"Expected field {expected_field} not found in data.")
+def validate_data(data, required_fields):
+    """
+    Validate the structure and content of the API response data.
+
+    Args:
+        data (dict): The API response data.
+        required_fields (list): List of required top-level keys.
+
+    Returns:
+        bool: True if data is valid, False otherwise.
+    """
+    for field in required_fields:
+        if field not in data:
+            logging.error(f"Missing field: {field}")
+            return False
+        if not isinstance(data[field], dict):
+            logging.error(f"Field {field} is not a dictionary.")
+            return False
+        if not data[field]:  # Ensure the field is not empty
+            logging.error(f"Field {field} is empty.")
+            return False
+    return True
+
+def check_api_errors(data):
+    """
+    Check for API-specific error messages in the response.
+
+    Args:
+        data (dict): The API response data.
+
+    Returns:
+        bool: True if no errors are found, False otherwise.
+    """
+    if "Note" in data:
+        logging.error("API rate limit exceeded.")
+        return False
+    if "Error Message" in data:
+        logging.error(f"API error: {data['Error Message']}")
         return False
     return True
