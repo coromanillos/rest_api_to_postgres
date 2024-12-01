@@ -1,88 +1,81 @@
 ##############################################
 # Title: Alpha Vantage Time Series Data Validation
 # Author: Christopher Romanillos
-# Description: Load in raw data, process it for
-#   data validation, timestamp, save the file
+# Description: ETL pipeline to validate, process, and store time series data.
 # Date: 11/02/24
-# Version: 1.0
+# Version: 2.0
 ##############################################
 
-from utils.utils import setup_logging, save_to_file, validate_data
-from utils.config import load_config, load_env_variables
-from utils.api_requests import fetch_api_data
-import os
-import glob
+import logging
+import json
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+from utils.utils import setup_logging, load_config
+from utils.file_handler import get_latest_raw_data_file, save_processed_data
+from utils.data_validation import transform_and_validate_data
 
-# Set up logging for processing steps
-setup_logging('../logs/data_processing.log')
+# Load configuration
+config = load_config("../config/config.yaml")
 
-# Directory where raw data is stored
-raw_data_dir = "../data/raw_data"
+# Ensure required config keys exist
+required_keys = ["log_file", "directories", "required_fields"]
+for key in required_keys:
+    if key not in config:
+        logging.error(f"Missing required configuration key: {key}")
+        raise ValueError(f"Missing required configuration key: {key}")
 
-# Locate the latest file in the raw_data directory
-def get_latest_raw_data_file():
+# Set up logging
+log_file = config.get("log_file", "default_log_file.log")
+setup_logging(log_file)
+
+# Main pipeline
+def process_raw_data():
     try:
-        list_of_files = glob.glob(f"{raw_data_dir}/data_*.json")
-        if not list_of_files:
-            raise FileNotFoundError("No raw data files found in the directory.")
-        latest_file = max(list_of_files, key=os.path.getctime)
-        return latest_file
+        # Get the latest raw data file
+        raw_data_file = get_latest_raw_data_file(config["directories"]["raw_data"])
+        if not raw_data_file:
+            raise FileNotFoundError("No raw data files found.")
+        
+        with open(raw_data_file, 'r') as file:
+            raw_data = json.load(file)
+
+        # Extract the time series data
+        time_series_data = raw_data.get("Time Series (5min)")
+        if not time_series_data:
+            raise ValueError("Missing 'Time Series (5min)' in raw data.")
+
+        # Process data with parallelism
+        processed_data = []
+        
+        def safe_transform(item, required_fields):
+            try:
+                return transform_and_validate_data(item, required_fields)
+            except Exception as e:
+                logging.error(f"Error transforming item {item}: {e}")
+                return None
+        
+        with ThreadPoolExecutor() as executor:
+            results = executor.map(
+                lambda item: safe_transform(item, config["required_fields"]),
+                time_series_data.items()
+            )
+            processed_data = [result for result in results if result is not None]
+
+        if not processed_data:
+            raise ValueError("No valid data was processed.")
+
+        # Save processed data
+        try:
+            save_processed_data(processed_data, config["directories"]["processed_data"])
+        except Exception as e:
+            logging.error(f"Error saving processed data: {e}")
+            raise
+        
+        logging.info("All tests passed. ETL pipeline completed successfully.")
+
     except Exception as e:
-        logging.error(f"Error in locating the latest raw data file: {e}")
+        logging.error(f"Pipeline failed: {e}")
         raise
 
-# Load the latest raw data file
-try:
-    latest_file_path = get_latest_raw_data_file()
-    with open(latest_file_path, 'r') as file:
-        raw_data = json.load(file)
-except (FileNotFoundError, json.JSONDecodeError) as e:
-    logging.error(f"Error loading the raw data file {latest_file_path}: {e}")
-    raise
-
-# Extract the specific time series data
-time_series_data = raw_data.get("Time Series (5min)")
-if not time_series_data:
-    logging.error("Expected field 'Time Series (5min)' not found in raw data.")
-    raise ValueError("Data validation failed: 'Time Series (5min)' not found.")
-
-# Process the data to match schema requirements
-processed_data = []
-for timestamp, values in time_series_data.items():
-    try:
-        # Validate that required fields are present
-        if not all(key in values for key in ["1. open", "2. high", "3. low", "4. close", "5. volume"]):
-            logging.warning(f"Missing required fields for timestamp {timestamp}. Skipping entry.")
-            continue
-
-        # Ensure valid data types
-        processed_data.append({
-            "timestamp": datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S'),
-            "open": float(values["1. open"]),
-            "high": float(values["2. high"]),
-            "low": float(values["3. low"]),
-            "close": float(values["4. close"]),
-            "volume": int(values["5. volume"])
-        })
-    except (ValueError, KeyError) as e:
-        logging.error(f"Error processing data for timestamp {timestamp}: {e}")
-        continue
-
-# Check if processed_data is empty
-if not processed_data:
-    logging.error("No valid data was processed. Check raw data for issues.")
-    raise ValueError("No valid data processed.")
-
-# Save processed data as a JSON file in a "prepared_data" folder
-processed_data_dir = "../data/processed_data"
-os.makedirs(processed_data_dir, exist_ok=True)
-
-processed_filename = f"{processed_data_dir}/processed_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-try:
-    with open(processed_filename, 'w') as file:
-        json.dump(processed_data, file, default=str)  # Ensure datetime is serialized as a string
-    logging.info(f"All tests passed. Processed data saved as {processed_filename}")
-except Exception as e:
-    logging.error(f"Error saving processed data to {processed_filename}: {e}")
-    raise
+if __name__ == "__main__":
+    process_raw_data()
