@@ -7,6 +7,7 @@
 ##############################################
 import json
 import logging
+import yaml
 
 def setup_logging(log_file):
     """Set up logging configuration."""
@@ -15,6 +16,10 @@ def setup_logging(log_file):
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
+
+def load_config(config_path):
+    with open(config_path, 'r') as file:
+        return yaml.safe_load(file)
 
 def save_to_file(data, file_path):
     """Save data to a JSON file."""

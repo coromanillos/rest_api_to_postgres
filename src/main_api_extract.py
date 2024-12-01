@@ -30,7 +30,7 @@ try:
     required_keys = validation_rules.get('required_keys', [])
 
     # Validate required configuration keys are present
-    missing_keys = [key for key in required_config_keys if key not in config['api']]
+    missing_keys = [key for key in required_keys if key not in config['api']]
     if missing_keys:
         raise ValueError(f"Missing required config keys: {', '.join(missing_keys)}")
 
