@@ -22,8 +22,14 @@ try:
     # Load configuration from config.yaml to a variable
     config = load_config('../config/config.yaml')
 
+    # Retrieve API type for validation (i.e. "alpha_vantage_intraday")
+    api_type = 'alpha_vantage_intraday' # Validation type via config.yaml
+
+    # Load validation rules for the specific API type
+    validation_rules = config.get('validation', {}).get(api_type, {})
+    required_keys = validation_rules.get('required_keys', [])
+
     # Validate required configuration keys are present
-    required_config_keys = ['endpoint', 'timeout', 'symbol']
     missing_keys = [key for key in required_config_keys if key not in config['api']]
     if missing_keys:
         raise ValueError(f"Missing required config keys: {', '.join(missing_keys)}")
@@ -35,7 +41,7 @@ try:
     api_endpoint = config['api']['endpoint']
     timeout_value = config['api']['timeout']
     symbol = config['api']['symbol']
-    interval = '5min'
+    interval = config['api'].get('interval', '5min')
 
     # Finished API URL
     url = f"{api_endpoint}?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={interval}&adjusted=false&apikey={api_key}"
