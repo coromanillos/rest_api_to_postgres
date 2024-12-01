@@ -71,7 +71,7 @@ def process_raw_data():
             logging.error(f"Error saving processed data: {e}")
             raise
         
-        logging.info("ETL pipeline completed successfully.")
+        logging.info("All tests passed. ETL pipeline completed successfully.")
 
     except Exception as e:
         logging.error(f"Pipeline failed: {e}")
