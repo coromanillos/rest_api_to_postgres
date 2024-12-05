@@ -19,9 +19,9 @@ this process is responsible for extracting Balance Sheet data from the Alpha Van
 - **API**: Alpha Vantage API
 - **Endpoint**: `https://www.alphavantage.co/query`
 - **Parameters**: 
-  - `function=BALANCE_SHEET`
+  - `function=ALPHA_VANTAGE_INTRADAY`
   - `symbol=IBM`
-  - `outputsize=full`
+  - `interval=5min`
   - `apikey=your_api_key_here`
 
 ### Process
@@ -31,20 +31,31 @@ The **raw data** will then be processed for consistency, and saved in the 'etl_p
 
 Saving both the raw data and the processed data locally is good practice for testing and validation, as well as for keeping historical records locally. This will also reduce load on databases as validation can happen outside of the database and data can be uploaded in batches. In critical events, this local data can serve as backup data if the ETL process has errors later on.
 
-Considerations: Depending on the data, it may take up large amounts of disk space over time, will have to be mindful of this. Implement a cleanup process to remove dated or unnecessary files...
+## 2. Transform
+
+### Source
+- **Raw Data**: Saved to directory as a json file after extraction step.
+
+### Process
+ - Extract time series data saved to a directory for raw data in a json format.
+
+ - Validate and transform the data.
+
+ - Save the processed data to a specified location.
+
+ - Log datetime for successful/unsuccessful process.
+
+ - Error checks for common issues
+
+ - **TEST:** Parallel Processing module for enhanced data transformation speed.
+
+
+
+
 
 - Look into encrypting local data, for security and data privacy. i.e banking data with personal info, etc.
 
 - Data extracted from the Alpha Vantage **BALANCE_SHEET** REST API is not time-series nor incremental data. There is no real point in automating this via cron job scheduling and logging. Pivot the project to maximize modularity and reusability for one-time endpoint extractions...
 
-- Regardless, schema will have to change to fit the constraints of the new API endpoint... Regardless, complete schema design for loading **BALANCE_SHEET** data to postgreSQL database...
-
 - Finally, look into cloud options, Amazon S3 may be a popular long term solution for data, rather than leaving in in a postgres database.
 
-# ETL Project update 10/27
-
-## Synopsis 
-After further resarch, I came to the conclusion that Time Series data will be better for a more realistc ETL project. I have come to understand that automation is critical for the process, and to incorporate **cron jobs** and common industry standard tech such as **Airflow**, it will warrant data that updates within intervals.
-
-- As a result, edit rest_api_extract to use **Time Series Intraday data**
-- Edit Trello project, consider using Git Projects instead?
