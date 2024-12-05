@@ -45,13 +45,16 @@ def process_raw_data():
             raise ValueError("Missing 'Time Series (5min)' in raw data.")
 
         # Process data with parallelism
-        processed_data = []
+        processed_data = [] 
+        failed_items = []
         
         def safe_transform(item, required_fields):
             try:
                 return transform_and_validate_data(item, required_fields)
             except Exception as e:
+                # Log and track failed items
                 logging.error(f"Error transforming item {item}: {e}")
+                failed_items.append({"item": item, "error": str(e)})
                 return None
         
         with ThreadPoolExecutor() as executor:
@@ -71,6 +74,14 @@ def process_raw_data():
             logging.error(f"Error saving processed data: {e}")
             raise
         
+        # Log failed items to a file for review
+        if failed_items:
+            failed_items_file = f"{config['directories']['logs']}/failed_items_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+            with open(failed_items_file, "w") as f:
+                for failure in failed_items:
+                    f.write(f"{failure}\n")
+            logging.warning(f"Some items failed processing. Details saved in {failed_items_file}")
+            
         logging.info("All tests passed. ETL pipeline completed successfully.")
 
     except Exception as e:

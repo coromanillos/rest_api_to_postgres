@@ -1,0 +1,17 @@
+2024-10-31 22:04:06,528 - ERROR - Error saving file: [Errno 2] No such file or directory: '../raw_data/data_20241031_220404.json'
+2024-10-31 22:05:06,175 - INFO - Data extraction, conversion and saving successful. Saved as ../data/raw_data/data_20241031_220502.json
+2024-11-15 07:36:33,238 - INFO - All tests passed. Saved as ../data/raw_data/data_20241115_073632.json
+2024-11-15 07:36:34,484 - INFO - All tests passed. Saved as ../data/raw_data/data_20241115_073634.json
+2024-11-18 19:29:10,968 - INFO - All tests passed. Saved as ../data/raw_data/data_20241118_192910.json
+2024-11-29 18:57:31,247 - ERROR - An error occured: name 'dave_to_file' is not defined
+2024-11-29 18:57:38,002 - ERROR - An error occured: name 'dave_to_file' is not defined
+2024-11-29 18:57:42,219 - ERROR - An error occured: name 'dave_to_file' is not defined
+2024-11-29 19:15:08,421 - ERROR - An error occured: name 'check_api_errors' is not defined
+2024-11-29 19:56:08,890 - ERROR - An unexpected error occurred: name 'os' is not defined
+2024-11-29 20:00:03,444 - INFO - Data saved to C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241129_200002.json
+2024-11-29 20:00:03,444 - INFO - Data extracted and saved successfully
+2024-11-29 20:01:17,381 - INFO - Data saved to C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241129_200116.json
+2024-11-29 20:01:17,383 - INFO - All tests passed. Data extracted and saved successfully to path C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241129_200116.json
+2024-12-01 00:36:56,504 - ERROR - An unexpected error occurred: name 'required_config_keys' is not defined
+2024-12-01 00:38:53,899 - INFO - Data saved to C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241201_003853.json
+2024-12-01 00:38:53,900 - INFO - All tests passed. Data extracted and saved successfully to path C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241201_003853.json
