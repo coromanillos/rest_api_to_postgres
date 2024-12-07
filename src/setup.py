@@ -5,6 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from schema import Base 
 from dotenv import load_dotenv
 import os 
+from pathlib import Path
 
 # Load enviornment variables from a .env file
 load_dotenv()
@@ -14,10 +15,6 @@ log_path = os.path.join(os.path.dirname(__file__), '../logs/setup.log')
 logging.basicConfig(
 	level=logging.INFO,
 	format='%(asctime)s - %(levelname)s - %(message)s'
-    handlers=[
-        logging.FileHandler(logpath)
-        logging.StreamHandler()
-    ]
 )
 
 # Set your PostgreSQL database URL
@@ -33,7 +30,6 @@ try:
 except SQLAlchemyError as e:
 	logging.error(f"Error creating databse engine: {e}")
 	raise
-
 
 def create_tables(drop_existing=False):
     """Create database tables"""
