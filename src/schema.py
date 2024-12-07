@@ -6,6 +6,10 @@ from datetime import datetime
 Base = declarative_base()
 
 class IntradayData(Base):
+	"""
+	SQLAlchewmy model for intraday time-series data.
+	Defines schema for storing OHLCV data with timestamps.
+	"""
     __tablename__ = 'intraday_data'  # Table name in PostgreSQL
 
     id = Column(BigInteger, primary_key=True, autoincrement=True) #Scalable ID
@@ -17,4 +21,6 @@ class IntradayData(Base):
     volume = Column(BigInteger, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)  # When record was first inserted
 
-# After defining this schema, run `Base.metadata.create_all(engine)` to create the table.
+# To create the table:
+# - Import 'Base' into a setup script.
+# Use `Base.metadata.create_all(engine)` with a properly configured engine.

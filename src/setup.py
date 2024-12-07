@@ -2,7 +2,7 @@
 import logging
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
-from schema import Base  # Import your Base class from schema.py
+from schema import Base 
 from dotenv import load_dotenv
 import os 
 
@@ -10,29 +10,39 @@ import os
 load_dotenv()
 
 # Configure logging
+log_path = os.path.join(os.path.dirname(__file__), '../logs/setup.log')
 logging.basicConfig(
-	filename='../logs/setup.log',
 	level=logging.INFO,
 	format='%(asctime)s - %(levelname)s - %(message)s'
+    handlers=[
+        logging.FileHandler(logpath)
+        logging.StreamHandler()
+    ]
 )
 
 # Set your PostgreSQL database URL
-POSTGRES_DATABASE_URL = os.getenv("DATABASE_URL","postgresql://username:password@localhost:5432/yourdatabase")
+POSTGRES_DATABASE_URL = os.getenv("DATABASE_URL")
+if not POSTGRES_DATABASE_URL:
+    logging.error("DATABASE_URL is not set in the enviornment.")
+    raise ValueError("DATABASE_URL is required but not set.")
 
 # Create the engine to connect to PostgreSQL
 try:
-	engine = create_engine(DATABASE_URL)
+	engine = create_engine(POSTGRES_DATABASE_URL)
 	logging.info("Database engine created successfully.")
 except SQLAlchemyError as e:
 	logging.error(f"Error creating databse engine: {e}")
 	raise
 
 
-def create_tables():
-    # Create all tables in the database.
+def create_tables(drop_existing=False):
+    """Create database tables"""
     try:
-    	Base.metadata.drop_all(engine)
-    	logging.info("Tables dropped successfully")
+        if drop_existing:
+        	Base.metadata.drop_all(engine)
+        	logging.info("Tables dropped successfully.")
+        Base.metadata.create_all(engine)
+        logging.info("Tables created successfully.")
     except SQLAlchemyError as e:
     	logging.error(f"Error dropping tables: {e}")
     	raise
@@ -41,7 +51,8 @@ if __name__ == "__main__":
     # Run the setup process
     logging.info("Starting database setup...")
     try:
-    	create_tables()
+    	create_tables(drop_existing=False)
+        logging.info("Database setup completed successfully.")
     except Exception as e:
     	logging.error(f"An error occurred during setup: {e}")
-    logging.info("Database setup completed.")
+      
