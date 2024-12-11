@@ -1,4 +1,10 @@
-# src/db/schema.py
+##############################################
+# Title: Schema Script
+# Author: Christopher Romanillos
+# Description: modular api_request script
+# Date: 11/23/24
+# Version: 1.0
+##############################################
 from sqlalchemy import Column, Integer, BigInteger, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime

@@ -1,4 +1,10 @@
-# src/db/setup.py
+##############################################
+# Title: Database setup script
+# Author: Christopher Romanillos
+# Description: Creates 
+# Date: 11/23/24
+# Version: 1.0
+##############################################
 import logging
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
