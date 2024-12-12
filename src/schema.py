@@ -12,13 +12,13 @@ from datetime import datetime
 Base = declarative_base()
 
 class IntradayData(Base):
-	"""
-	SQLAlchewmy model for intraday time-series data.
-	Defines schema for storing OHLCV data with timestamps.
-	"""
+    """
+    SQLAlchemy model for intraday time-series data.
+    Defines schema for storing OHLCV data with timestamps.
+    """
     __tablename__ = 'intraday_data'  # Table name in PostgreSQL
 
-    id = Column(BigInteger, primary_key=True, autoincrement=True) #Scalable ID
+    id = Column(BigInteger, primary_key=True, autoincrement=True)  # Scalable ID
     timestamp = Column(DateTime, nullable=False, unique=True, index=True)  # Unique time-series data
     open = Column(Float, nullable=False)  # OHLC and volume data
     high = Column(Float, nullable=False)

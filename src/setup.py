@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 
 # Set your PostgreSQL database URL
-POSTGRES_DATABASE_URL = os.getenv("DATABASE_URL")
+POSTGRES_DATABASE_URL = os.getenv("POSTGRES_DATABASE_URL")
 if not POSTGRES_DATABASE_URL:
     logging.error("DATABASE_URL is not set in the enviornment.")
     raise ValueError("DATABASE_URL is required but not set.")
@@ -53,8 +53,8 @@ if __name__ == "__main__":
     # Run the setup process
     logging.info("Starting database setup...")
     try:
-    	create_tables(drop_existing=False)
+        create_tables(drop_existing=False)
         logging.info("Database setup completed successfully.")
     except Exception as e:
-    	logging.error(f"An error occurred during setup: {e}")
+        logging.error(f"An error occurred during setup: {e}")
       
