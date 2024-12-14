@@ -4,3 +4,6 @@
 2024-12-01 00:41:14,682 - INFO - ETL pipeline completed successfully.
 2024-12-01 00:49:51,985 - INFO - Processed data saved to ..\data\processed_data\processed_data_20241201_004951.json.
 2024-12-01 00:49:51,985 - INFO - ETL pipeline completed successfully.
+2024-12-14 18:22:14,741 - INFO - Latest file found: ..\data\raw_data\data_20241214_182206.json
+2024-12-14 18:22:14,766 - INFO - Processed data saved to ..\data\processed_data\processed_data_20241214_182214.json.
+2024-12-14 18:22:14,766 - INFO - All tests passed. ETL pipeline completed successfully.

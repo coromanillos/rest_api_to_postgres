@@ -1,7 +1,8 @@
 ##############################################
 # Title: Schema Script
 # Author: Christopher Romanillos
-# Description: modular api_request script
+# Description: Defines schema for postgres
+# ETL pipeline. 
 # Date: 11/23/24
 # Version: 1.0
 ##############################################

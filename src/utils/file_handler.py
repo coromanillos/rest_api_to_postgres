@@ -9,22 +9,41 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
+import logging
 
-def get_latest_raw_data_file(raw_data_dir):
+def get_latest_file(directory: str, pattern: str = "*.json") -> Path:
+    """
+    Get the most recent file in a directory based on a pattern.
+
+    Args:
+        directory (str): The path to the directory to search.
+        pattern (str): The file pattern to match (default is '*.json').
+
+    Returns:
+        Path: The most recently created or modified file that matches the pattern.
+
+    Raises:
+        FileNotFoundError: If no matching files are found.
+        Exception: For other unexpected errors.
+    """
     try:
-        # Using pathlib for better path handling
-        raw_data_path = Path(raw_data_dir)
-        # Glob pattern for matching data files
-        files = list(raw_data_path.glob("data_*.json"))
+        dir_path = Path(directory)
+        if not dir_path.is_dir():
+            raise NotADirectoryError(f"{directory} is not a valid directory.")
+
+        # Match files based on the provided pattern
+        files = list(dir_path.glob(pattern))
         if not files:
-            raise FileNotFoundError("No raw data files found.")
-        
-        # Return the most recently created file
-        latest_file = max(files, key=lambda f: f.stat().st_ctime)
+            raise FileNotFoundError(f"No files matching pattern '{pattern}' found in {directory}.")
+
+        # Return the most recently modified or created file
+        latest_file = max(files, key=lambda f: f.stat().st_mtime)  # Use st_mtime for last modified
+        logging.info(f"Latest file found: {latest_file}")
         return latest_file
     except Exception as e:
-        logging.error(f"Error locating latest raw data file: {e}")
+        logging.error(f"Error locating the latest file: {e}")
         raise
+
 
 def save_processed_data(data, processed_data_dir):
     try:

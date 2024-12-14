@@ -7,7 +7,12 @@
 # Version: 1.1
 ##############################################
 
-from utils.utils import setup_logging, save_to_file, validate_data, check_api_errors
+from utils.utils import (
+    setup_logging, 
+    save_to_file, 
+    validate_data, 
+    check_api_errors
+)
 from utils.config import load_config, load_env_variables
 from utils.api_requests import fetch_api_data
 from datetime import datetime
@@ -64,8 +69,11 @@ try:
     # Add extraction timestamp
     data['extraction_time'] = timestamp
 
+    # Determine file save path
+    raw_data_dir = Path(__file__).resolve().parent.parent / 'data' / 'raw_data'
+    output_file_path = raw_data_dir / f"data_{timestamp}.json"
+
     # Save the data
-    output_file_path = Path(__file__).resolve().parent.parent / 'data' / 'raw_data' / f"data_{timestamp}.json"
     save_to_file(data, output_file_path)
 
     logging.info(f"All tests passed. Data extracted and saved successfully to path {output_file_path}")
