@@ -15,3 +15,5 @@
 2024-12-01 00:36:56,504 - ERROR - An unexpected error occurred: name 'required_config_keys' is not defined
 2024-12-01 00:38:53,899 - INFO - Data saved to C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241201_003853.json
 2024-12-01 00:38:53,900 - INFO - All tests passed. Data extracted and saved successfully to path C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241201_003853.json
+2024-12-14 18:22:06,812 - INFO - Data saved to C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241214_182206.json
+2024-12-14 18:22:06,823 - INFO - All tests passed. Data extracted and saved successfully to path C:\Users\CORom\OneDrive\Desktop\etl_project\data\raw_data\data_20241214_182206.json

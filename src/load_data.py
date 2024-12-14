@@ -3,19 +3,22 @@
 # Author: Christopher Romanillos
 # Description: validates and loads cleaned
 # and transformed data to data lake.
+# ! ASSUMES DATABASE FROM POSTGRES_DATABAS_URL 
+# ALREADY EXISTS. MAKE MANUALLY OR VIA SCRIPT !
 # Date: 12/08/24
 # Version: 1.0
 ##############################################
-from utils.utils import setup_logging
 import os
 import json
 import logging
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-from db.schema import IntradayData  
 from datetime import datetime
 from pathlib import Path
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
 from dotenv import load_dotenv
+from utils.utils import setup_logging
+from schema import IntradayData
+from utils.file_handler import get_latest_file
 
 # Set your PostgreSQL database URL
 load_dotenv()
@@ -39,18 +42,6 @@ except Exception as e:
     logging.error(f"Failed to create database engine: {e}")
     exit(1)
 
-def find_most_recent_file(data_dir: Path) -> Path:
-    """Find the most recent JSON file in the processed data directory."""
-    try:
-        most_recent_file = max(
-            (file for file in data_dir.iterdir() if file.is_file() and file.suffix == '.json' and '__' in file.stem),
-            key=lambda f: datetime.strptime(f.stem.split('__')[-1], '%Y%m%d%H%M%S'),
-        )
-        return most_recent_file
-    except ValueError:
-        logging.error(f"No valid JSON files found in the directory: {data_dir}")
-        return None
-
 def load_data():
     """Load processed JSON data into the database."""
     data_dir = Path(__file__).parent.parent / 'data' / 'processed_data'
@@ -59,18 +50,18 @@ def load_data():
         logging.error(f"Processed data directory does not exist: {data_dir}")
         return
 
-    most_recent_file = find_most_recent_file(data_dir)
+    most_recent_file = get_latest_file(data_dir)
     if not most_recent_file:
         return
 
     # Load and validate JSON data
     data = []
     try:
-        with open(data_file_path, 'r') as file:
+        with open(most_recent_file, 'r') as file:
             data = json.load(file)
-            logging.info(f"Loaded data from {data_file_path}.")
+            logging.info(f"Loaded data from {most_recent_file}.")
     except FileNotFoundError:
-        logging.error(f"File not found: {data_file_path}")
+        logging.error(f"File not found: {most_recent_file}")
         return
     except json.JSONDecodeError as e:
         logging.error(f"Failed to decode JSON: {e}")
@@ -80,7 +71,8 @@ def load_data():
     new_records = []
     required_keys = {'timestamp', 'open', 'high', 'low', 'close', 'volume'}
     for record in data:
-        if not required_keys.issubset(record):
+        missing_keys = required_keys - record.keys()
+        if missing_keys:
             logging.warning(f"Skipping invalid record: {record}. Missing keys: {missing_keys}")
             continue
         try:
@@ -106,7 +98,7 @@ def load_data():
             logging.info(f"Successfully loaded {len(new_records)} records into the database.")
     except Exception as e:
         logging.error(f"Database operation failed: {e}")
-        
+
 if __name__ == "__main__":
     logging.info("Starting data load process...")
     try:

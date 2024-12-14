@@ -1,0 +1,41 @@
+2024-12-12 23:12:38,722 - INFO - Database connection established successfully.
+2024-12-12 23:12:38,722 - INFO - Starting data load process...
+2024-12-12 23:12:38,798 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-12 23:12:38,798 - INFO - Data load process completed successfully.
+2024-12-12 23:15:38,832 - INFO - Database connection established successfully.
+2024-12-12 23:15:38,833 - INFO - Starting data load process...
+2024-12-12 23:15:38,833 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-12 23:15:38,834 - INFO - Data load process completed successfully.
+2024-12-12 23:24:42,426 - INFO - Database connection established successfully.
+2024-12-12 23:24:42,426 - INFO - Starting data load process...
+2024-12-12 23:24:42,427 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-12 23:24:42,427 - INFO - Data load process completed successfully.
+2024-12-12 23:40:20,563 - INFO - Database connection established successfully.
+2024-12-12 23:40:20,563 - INFO - Starting data load process...
+2024-12-12 23:40:20,564 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-12 23:40:20,564 - INFO - Data load process completed successfully.
+2024-12-12 23:45:02,517 - INFO - Database connection established successfully.
+2024-12-12 23:45:02,518 - INFO - Starting data load process...
+2024-12-12 23:45:02,518 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-12 23:45:02,518 - INFO - Data load process completed successfully.
+2024-12-12 23:52:11,864 - INFO - Database connection established successfully.
+2024-12-12 23:52:11,864 - INFO - Starting data load process...
+2024-12-12 23:52:11,897 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-12 23:52:11,897 - INFO - Data load process completed successfully.
+2024-12-13 00:00:53,610 - INFO - Database connection established successfully.
+2024-12-13 00:00:53,611 - INFO - Starting data load process...
+2024-12-13 00:00:53,611 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-13 00:00:53,611 - INFO - Data load process completed successfully.
+2024-12-13 00:05:20,841 - INFO - Database connection established successfully.
+2024-12-13 00:05:20,842 - INFO - Starting data load process...
+2024-12-13 00:05:20,842 - ERROR - No valid JSON files found in the directory: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data
+2024-12-13 00:05:20,842 - INFO - Data load process completed successfully.
+2024-12-14 18:22:56,508 - INFO - Database connection established successfully.
+2024-12-14 18:22:56,508 - INFO - Starting data load process...
+2024-12-14 18:22:56,508 - ERROR - An unexpected error occurred during the data load process: name 'get_latest_file' is not defined
+2024-12-14 18:24:20,793 - INFO - Database connection established successfully.
+2024-12-14 18:24:20,794 - INFO - Starting data load process...
+2024-12-14 18:24:20,795 - INFO - Latest file found: C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data\processed_data_20241214_182214.json
+2024-12-14 18:24:20,795 - INFO - Loaded data from C:\Users\CORom\OneDrive\Desktop\etl_project\data\processed_data\processed_data_20241214_182214.json.
+2024-12-14 18:24:21,062 - INFO - Successfully loaded 100 records into the database.
+2024-12-14 18:24:21,077 - INFO - Data load process completed successfully.

@@ -5,13 +5,12 @@
 # Date: 11/02/24
 # Version: 2.0
 ##############################################
-
 import logging
 import json
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from utils.utils import setup_logging, load_config
-from utils.file_handler import get_latest_raw_data_file, save_processed_data
+from utils.file_handler import get_latest_file, save_processed_data
 from utils.data_validation import transform_and_validate_data
 
 # Load configuration
@@ -32,7 +31,7 @@ setup_logging(log_file)
 def process_raw_data():
     try:
         # Get the latest raw data file
-        raw_data_file = get_latest_raw_data_file(config["directories"]["raw_data"])
+        raw_data_file = get_latest_file(config["directories"]["raw_data"])
         if not raw_data_file:
             raise FileNotFoundError("No raw data files found.")
         
