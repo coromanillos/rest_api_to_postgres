@@ -10,9 +10,10 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydatabase
     depends_on:
       - db
+      - airflow
 
   db:
-    image: postgres:13
+    image: postgres:15.10
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -22,5 +23,24 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data  # Persist database data
 
+  airflow:
+    image: apache/airflow:2.7.3  # Use the Airflow image and version you prefer
+    ports:
+      - "8080:8080"  # Airflow Web UI
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@db:5432/mydatabase
+      - AIRFLOW__CORE__FERNET_KEY=your_fernet_key  # Replace with your generated key
+    depends_on:
+      - db
+    volumes:
+      - airflow_logs:/opt/airflow/logs
+      - airflow_dags:/opt/airflow/dags
+    command: >
+      bash -c "airflow db init &&
+               airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
+               airflow scheduler & airflow webserver"
 volumes:
   pgdata:
+  airflow_logs:
+  aiflow_dags:
